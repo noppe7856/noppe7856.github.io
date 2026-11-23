@@ -2,7 +2,7 @@
 
 登録不要・無料で安心して遊べるWebアプリ＆ミニゲームの公開ポータルサイトです。
 - 公開URL: https://noppe7856.github.io/
-- 管理者用アクセス状況ダッシュボード: https://noppe7856.github.io/stats.html
+- アクセス解析の確認は、ログイン保護された各公式管理画面（GA4 / GoatCounter / Cloudflare / Google Search Console / GitHub Insights）から行います。
 
 ---
 
