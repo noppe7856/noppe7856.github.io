@@ -32,9 +32,9 @@ export const SITE_CONFIG = {
     },
     // GoatCounter（超軽量・Cookie不要・オープンソース・無料。管理画面がシンプルでおすすめ）
     goatcounter: {
-      enabled: false,
-      code: "", // 例: "noppe7856" -> https://noppe7856.goatcounter.com
-      publicDashboard: false // GoatCounter側で公開設定にした場合 true にすると stats.html で閲覧可
+      enabled: true,
+      code: "noppe7856", // https://noppe7856.goatcounter.com
+      publicDashboard: false
     },
     // Cloudflare Web Analytics（Cookie不要・無料・プライバシー重視）
     cloudflare: {
