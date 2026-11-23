@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>アクセス状況・計測ダッシュボード（管理用）｜のっぺのアプリ広場</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="./" class="brand-link">
+        <img src="./assets/favicon.svg" alt="" class="brand-logo" />
+        <div>
+          <div class="brand-name" data-site-name>のっぺのアプリ広場</div>
+          <div class="brand-sub">Admin Analytics Dashboard</div>
+        </div>
+      </a>
+      <nav class="header-nav">
+        <a href="./" class="nav-link">🏠 トップへ戻る</a>
+        <a href="./about.html" class="nav-link">このサイトについて</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="breadcrumb" aria-label="パンくずリスト">
+      <a href="./">🏠 ホーム</a>
+      <span>/</span>
+      <span>アクセス状況・計測ダッシュボード（管理用）</span>
+    </nav>
+
+    <article class="article-card">
+      <h1>📊 アクセス状況・客観的計測ダッシュボード</h1>
+      <p>
+        管理者向けに、ポータルサイトおよび全アプリ（<code>kanji-flashcard</code> / <code>tebata-trainer</code> 等）の客観的アクセス計測ステータスと、各公式分析ツールへのショートカットをまとめています。
+      </p>
+
+      <h2>1. 客観的アクセス計測サービスの連携状況</h2>
+      <p>
+        本サイトと各アプリは共通モジュール <code>js/analytics.js</code> を読み込んでいます。
+        <a href="https://github.com/noppe7856/noppe7856.github.io/blob/main/js/site-config.js" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">js/site-config.js</a>
+        に ID を1箇所設定するだけで、ポータル＋全アプリのPV・訪問者数・流入元・アプリ起動回数を一括計測できます。
+      </p>
+      <div class="status-grid" id="analytics-status-grid"></div>
+
+      <h2>2. 公開中サイト・リポジトリ一覧（GitHub ライブ情報）</h2>
+      <div style="overflow-x:auto;">
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>サイト / アプリ</th>
+              <th>公開URL</th>
+              <th>GitHub Star</th>
+              <th>最終更新</th>
+              <th>リポジトリ Traffic</th>
+            </tr>
+          </thead>
+          <tbody id="repo-stats-body"></tbody>
+        </table>
+      </div>
+
+      <h2>3. 最短3分で客観的アクセス計測を始める手順</h2>
+      <p>
+        初めての方には、Cookie不要・無料・登録後すぐに見やすいグラフが出る <strong>GoatCounter</strong> と、詳細な検索流入やクリック分析ができる <strong>Google Analytics 4 (GA4) ＋ Search Console</strong> の併用がおすすめです。
+      </p>
+
+      <ol>
+        <li>
+          <strong>GoatCounter（おすすめ・最速）</strong>：
+          <a href="https://www.goatcounter.com/signup" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">goatcounter.com</a>
+          で無料アカウントを作成し、コード名（例：<code>noppe7856</code>）を取得します。
+        </li>
+        <li>
+          <strong>Google Analytics 4 (GA4)</strong>：
+          <a href="https://analytics.google.com/" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">analytics.google.com</a>
+          でウェブストリーム（URL: <code>https://noppe7856.github.io</code>）を作成し、測定ID（<code>G-XXXXXXXXXX</code>）を取得します。
+        </li>
+        <li>
+          <strong>設定ファイル1箇所を更新して push</strong>：
+          <code>js/site-config.js</code> の <code>analytics</code> セクションを以下のように書き換えるだけで、ポータル全ページと各アプリのアクセス数・起動イベント（<code>play_app</code> / <code>app_open</code> / <code>share_click</code> / <code>support_click</code>）が自動計測されます。
+        </li>
+      </ol>
+
+      <pre class="code-block">analytics: {
+  ga4: {
+    enabled: true,
+    measurementId: "G-XXXXXXXXXX"
+  },
+  goatcounter: {
+    enabled: true,
+    code: "noppe7856",
+    publicDashboard: false
+  },
+  cloudflare: {
+    enabled: false,
+    beaconToken: ""
+  },
+  searchConsoleVerification: "Google Search Consoleの確認コード"
+}</pre>
+
+      <h2>4. 計測イベントの動作確認方法</h2>
+      <p>
+        任意のページに <code>?debug_analytics=1</code> を付けて開き、ブラウザの開発者ツール（Console）を見ると、送信されるページビューおよびクリックイベント（<code>play_app</code>, <code>app_open</code>, <code>share_click</code>, <code>support_click</code>）をリアルタイムで確認できます。
+      </p>
+      <div class="cta-bar">
+        <a href="./?debug_analytics=1" class="btn btn-primary">🧪 デバッグモードでトップページを開く</a>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="copyright">&copy; <span data-year>2026</span> <span data-site-name>のっぺのアプリ広場</span></div>
+      <div class="footer-links">
+        <a href="./">トップへ戻る</a>
+        <a href="./privacy.html">プライバシーポリシー</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="./js/app.js"></script>
+  <script type="module" src="./js/stats.js"></script>
+</body>
+</html>

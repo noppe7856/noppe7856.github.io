@@ -4,17 +4,72 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>のっぺのアプリ広場 | 無料Webアプリ＆ミニゲーム集</title>
-  <meta name="description" content="インストール不要・無料で楽しめる学習アプリやミニゲームを公開している「のっぺのアプリ広場」です。スマホ・PCどちらでもすぐ遊べます。" />
+  <meta name="description" content="インストール不要・会員登録不要・完全無料で安心して使える学習アプリやミニゲームを公開している「のっぺのアプリ広場」です。全アプリのソースコードをGitHubで公開しています。" />
+  <link rel="canonical" href="https://noppe7856.github.io/" />
+  <link rel="manifest" href="./manifest.json" />
+  <meta name="theme-color" content="#4f46e5" />
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="のっぺのアプリ広場" />
   <meta property="og:title" content="のっぺのアプリ広場 | 無料Webアプリ＆ミニゲーム集" />
-  <meta property="og:description" content="漢字読みマスターや手旗信号3Dトレーナーなど、インストール不要ですぐ遊べる無料Webアプリ＆ゲームを公開中！" />
+  <meta property="og:description" content="漢字読みマスターや手旗信号3Dトレーナーなど、登録不要・無料ですぐ遊べる安心のWebアプリ＆ゲームを公開中！" />
   <meta property="og:url" content="https://noppe7856.github.io/" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image" content="https://noppe7856.github.io/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="のっぺのアプリ広場 | 無料Webアプリ＆ミニゲーム集" />
+  <meta name="twitter:description" content="インストール不要・会員登録不要ですぐ遊べる無料Webアプリ＆ミニゲーム集" />
+  <meta name="twitter:image" content="https://noppe7856.github.io/assets/og-image.png" />
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./css/styles.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "name": "のっぺのアプリ広場",
+        "alternateName": "Noppe's App & Game Lab",
+        "url": "https://noppe7856.github.io/",
+        "inLanguage": "ja",
+        "description": "インストール不要・会員登録不要・完全無料で安心して使える学習アプリやミニゲームの公開ポータルサイト"
+      },
+      {
+        "@type": "ItemList",
+        "name": "公開中の無料Webアプリ一覧",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@type": "SoftwareApplication",
+              "name": "漢字読みマスター！",
+              "applicationCategory": "EducationalApplication",
+              "operatingSystem": "Web Browser",
+              "url": "https://noppe7856.github.io/kanji-flashcard/",
+              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@type": "SoftwareApplication",
+              "name": "手旗信号 3D トレーナー",
+              "applicationCategory": "EducationalApplication",
+              "operatingSystem": "Web Browser",
+              "url": "https://noppe7856.github.io/tebata-trainer/",
+              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" }
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <header class="site-header">
@@ -28,6 +83,7 @@
       </a>
       <nav class="header-nav" aria-label="メインナビゲーション">
         <a href="#apps" class="nav-link">アプリ一覧</a>
+        <a href="./about.html" class="nav-link">このサイトについて</a>
         <a href="./contact.html" class="nav-link">リクエスト</a>
         <a href="#support" class="nav-link support-pill">☕ 応援する</a>
       </nav>
@@ -40,16 +96,48 @@
       <div class="container">
         <div class="hero-card">
           <div class="hero-content">
-            <div class="hero-eyebrow">🎉 ようこそ！ ブラウザですぐ遊べる広場</div>
+            <div class="hero-eyebrow">🎉 ようこそ！ ブラウザですぐ遊べる安心のアプリ広場</div>
             <h1 data-site-tagline>すぐ遊べて、ちょっと役立つ。みんなの無料Webアプリ＆ゲーム広場</h1>
             <p>
               毎日の勉強が楽しくなるフラッシュカードから、本格的な3Dトレーニングツールやミニゲームまで。
-              アプリのインストールも会員登録も不要で、気になった瞬間からすぐ遊べます。
+              アプリのインストールも会員登録も不要で、お子さまから大人まで安心してすぐ遊べます。
             </p>
             <div class="hero-badges">
               <span class="hero-badge">🆓 ぜんぶ無料</span>
               <span class="hero-badge">📱 スマホ・PC対応</span>
-              <span class="hero-badge">⚡ 登録・インストール不要</span>
+              <span class="hero-badge">🔒 登録不要・HTTPS安全通信</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust & Safety Strip -->
+        <div class="trust-strip" aria-label="安心して使える4つの約束">
+          <div class="trust-item">
+            <div class="trust-icon" aria-hidden="true">🔒</div>
+            <div>
+              <strong>会員登録・個人情報入力なし</strong>
+              <span>メールアドレスやアカウント登録なしで、開いてすぐに使えます。</span>
+            </div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon" aria-hidden="true">💾</div>
+            <div>
+              <strong>データは端末内のみに保存</strong>
+              <span>学習履歴や設定はお使いのブラウザ内だけで管理し、外部送信しません。</span>
+            </div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon" aria-hidden="true">💻</div>
+            <div>
+              <strong>ソースコードを全公開</strong>
+              <span>透明性を大切にし、全アプリのコードを GitHub 上で公開しています。</span>
+            </div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon" aria-hidden="true">🛡️</div>
+            <div>
+              <strong>子ども・保護者も安心設計</strong>
+              <span>悪質なポップアップや意図しない課金誘導は一切ありません。</span>
             </div>
           </div>
         </div>
@@ -122,8 +210,10 @@
         &copy; <span data-year>2026</span> <span data-site-name>のっぺのアプリ広場</span>
       </div>
       <div class="footer-links">
+        <a href="./about.html">このサイトについて</a>
         <a href="./contact.html">お問い合わせ・リクエスト</a>
         <a href="./privacy.html">プライバシーポリシー</a>
+        <a href="./stats.html">アクセス状況（管理用）</a>
         <a href="https://github.com/noppe7856" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { SITE_CONFIG } from "./site-config.js";
 import { APPS_DATA, CATEGORIES } from "./apps.js";
+import { trackEvent } from "./analytics.js";
 
 function showToast(message) {
   let toast = document.getElementById("portal-toast");
@@ -44,7 +45,7 @@ function hydrateSupportUI() {
   const { enabled, url, serviceName, buttonLabel } = SITE_CONFIG.support;
   if (enabled && url) {
     supportContainer.innerHTML = `
-      <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="btn btn-support">
+      <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="btn btn-support" data-track-event="support_click" data-track-label="${escapeHtml(serviceName)}">
         <span>☕</span>
         <span>${escapeHtml(buttonLabel)}（${escapeHtml(serviceName)}）</span>
       </a>
@@ -66,16 +67,16 @@ function hydrateContactUI() {
   const { formUrl, githubIssuesUrl } = SITE_CONFIG.contact;
   if (formUrl) {
     formBox.innerHTML = `
-      <a href="${escapeHtml(formUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+      <a href="${escapeHtml(formUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" data-track-event="contact_click" data-track-label="form">
         ✉️ お問い合わせ・リクエストフォームを開く
       </a>
-      <a href="${escapeHtml(githubIssuesUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+      <a href="${escapeHtml(githubIssuesUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" data-track-event="contact_click" data-track-label="github_issues">
         💬 GitHub Issues で相談する
       </a>
     `;
   } else {
     formBox.innerHTML = `
-      <a href="${escapeHtml(githubIssuesUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+      <a href="${escapeHtml(githubIssuesUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" data-track-event="contact_click" data-track-label="github_issues">
         💬 GitHub Issues で感想・リクエストを送る
       </a>
     `;
@@ -129,6 +130,8 @@ function initShareButtons() {
       const shareText =
         btn.getAttribute("data-share-text") ||
         `${document.title} | ${SITE_CONFIG.siteName}`;
+
+      trackEvent("share_click", { label: type, share_url: shareUrl });
 
       if (type === "x") {
         const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
@@ -197,7 +200,7 @@ function initPortalCatalog() {
       .map(
         (app) => `
         <article class="app-card">
-          <a href="${escapeHtml(app.playUrl)}" class="app-thumb" style="background: linear-gradient(135deg, ${app.accentFrom}, ${app.accentTo});" aria-label="${escapeHtml(app.title)}をすぐ遊ぶ">
+          <a href="${escapeHtml(app.playUrl)}" class="app-thumb" style="background: linear-gradient(135deg, ${app.accentFrom}, ${app.accentTo});" aria-label="${escapeHtml(app.title)}をすぐ遊ぶ" data-track-event="play_app" data-app-id="${escapeHtml(app.id)}">
             <span class="app-badge">${escapeHtml(app.badge)}</span>
             <div class="app-thumb-icon">${escapeHtml(app.iconText)}</div>
             <span class="app-category-chip">${escapeHtml(app.categoryLabel)}</span>
@@ -209,9 +212,13 @@ function initPortalCatalog() {
             <div class="tag-list">
               ${app.tags.map((t) => `<span class="tag">#${escapeHtml(t)}</span>`).join("")}
             </div>
+            <div class="app-trust-meta">
+              <span>🔒 ${escapeHtml(app.privacyNote || "端末内保存のみ")}</span>
+              <a href="${escapeHtml(app.repoUrl)}" target="_blank" rel="noopener noreferrer" data-track-event="source_code_click" data-app-id="${escapeHtml(app.id)}">ソース公開 ↗</a>
+            </div>
             <div class="app-actions">
-              <a href="${escapeHtml(app.playUrl)}" class="btn btn-primary">▶ すぐ遊ぶ</a>
-              <a href="${escapeHtml(app.detailUrl)}" class="btn btn-secondary">くわしく</a>
+              <a href="${escapeHtml(app.playUrl)}" class="btn btn-primary" data-track-event="play_app" data-app-id="${escapeHtml(app.id)}">▶ すぐ遊ぶ</a>
+              <a href="${escapeHtml(app.detailUrl)}" class="btn btn-secondary" data-track-event="view_detail" data-app-id="${escapeHtml(app.id)}">くわしく</a>
             </div>
           </div>
         </article>
@@ -228,7 +235,7 @@ function initPortalCatalog() {
           <p class="app-desc" style="flex:0;margin-bottom:16px;">
             「こんなミニゲームが遊びたい」「こんな学習ツールが欲しい」などのリクエストも大歓迎です。
           </p>
-          <a href="./contact.html" class="btn btn-secondary">💡 アイデアをリクエストする</a>
+          <a href="./contact.html" class="btn btn-secondary" data-track-event="request_click">💡 アイデアをリクエストする</a>
         </article>
       `
         : "";

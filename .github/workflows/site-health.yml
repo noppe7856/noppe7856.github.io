@@ -1,0 +1,37 @@
+name: Site Health Check
+
+on:
+  push:
+    branches: ["main"]
+  schedule:
+    # 毎週月曜 09:00 JST (00:00 UTC) に公開URLの稼働をチェック
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+
+jobs:
+  check-live-urls:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Portal & App Endpoints
+        run: |
+          URLS=(
+            "https://noppe7856.github.io/"
+            "https://noppe7856.github.io/about.html"
+            "https://noppe7856.github.io/privacy.html"
+            "https://noppe7856.github.io/contact.html"
+            "https://noppe7856.github.io/stats.html"
+            "https://noppe7856.github.io/apps/kanji-flashcard.html"
+            "https://noppe7856.github.io/apps/tebata-trainer.html"
+            "https://noppe7856.github.io/kanji-flashcard/"
+            "https://noppe7856.github.io/tebata-trainer/"
+            "https://noppe7856.github.io/sitemap.xml"
+            "https://noppe7856.github.io/assets/og-image.png"
+          )
+          for url in "${URLS[@]}"; do
+            code=$(curl -sS -o /dev/null -w "%{http_code}" "$url")
+            echo "$url -> HTTP $code"
+            if [ "$code" != "200" ]; then
+              echo "::error::Health check failed for $url (HTTP $code)"
+              exit 1
+            fi
+          done
