@@ -44,6 +44,26 @@ export const APPS_DATA = [
     accentTo: "#10b981",
     iconText: "🚩",
     updatedAt: "2026-11-23"
+  },
+  {
+    id: "monolith-quake",
+    repoName: "monolith-quake",
+    title: "MONOLITH",
+    subtitle: "3D地球儀リアルタイム地震モニター & Lo-Fiプレイヤー",
+    category: "tool",
+    categoryLabel: "べんりツール",
+    badge: "3D・Lo-Fi自動生成",
+    description:
+      "ホワイトベース・完全モノクロームの3D地球儀で世界中の地震をリアルタイム監視！過去30日間のタイムライン再生と、Web Audio APIによるLo-Fiチルミュージック自動生成を搭載。",
+    tags: ["3D地球儀", "リアルタイム地震", "Lo-Fi音楽", "モノクローム"],
+    privacyNote: "登録不要・単一HTML動作",
+    playUrl: "https://noppe7856.github.io/monolith-quake/",
+    detailUrl: "./apps/monolith-quake.html",
+    repoUrl: "https://github.com/noppe7856/monolith-quake",
+    accentFrom: "#1e293b",
+    accentTo: "#64748b",
+    iconText: "🌍",
+    updatedAt: "2026-11-25"
   }
 ];
 

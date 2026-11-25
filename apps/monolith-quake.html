@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MONOLITH（3D地球儀リアルタイム地震モニター &amp; Lo-Fiプレイヤー）｜のっぺのアプリ広場</title>
+  <meta name="description" content="ホワイトベース・完全モノクロームデザインの3D地球儀リアルタイム地震モニター＆Lo-Fiチルミュージックプレイヤー。USGS地震データのライブ監視・30日間タイムライン再生・Web Audio APIによるLo-Fi音楽生成を搭載。" />
+  <link rel="canonical" href="https://noppe7856.github.io/apps/monolith-quake.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="MONOLITH｜3D地球儀リアルタイム地震モニター &amp; Lo-Fiプレイヤー" />
+  <meta property="og:description" content="完全モノクロームの3D地球儀で世界中の地震をリアルタイム可視化＆Web Audio APIでLo-Fiチルミュージックを自動生成。" />
+  <meta property="og:url" content="https://noppe7856.github.io/apps/monolith-quake.html" />
+  <meta property="og:image" content="https://noppe7856.github.io/assets/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../" class="brand-link">
+        <img src="../assets/favicon.svg" alt="" class="brand-logo" />
+        <div>
+          <div class="brand-name" data-site-name>のっぺのアプリ広場</div>
+          <div class="brand-sub" data-site-sub>Noppe's App &amp; Game Lab</div>
+        </div>
+      </a>
+      <nav class="header-nav">
+        <a href="../#apps" class="nav-link">アプリ一覧</a>
+        <a href="../about.html" class="nav-link">このサイトについて</a>
+        <a href="../contact.html" class="nav-link">リクエスト</a>
+        <a href="../#support" class="nav-link support-pill">☕ 応援する</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="breadcrumb" aria-label="パンくずリスト">
+      <a href="../">🏠 ホーム</a>
+      <span>/</span>
+      <span>MONOLITH</span>
+    </nav>
+
+    <article class="article-card">
+      <div class="tag-list" style="margin-bottom:10px;">
+        <span class="tag">#3D地球儀</span>
+        <span class="tag">#リアルタイム地震</span>
+        <span class="tag">#Lo-Fi音楽</span>
+        <span class="tag">#モノクローム</span>
+        <span class="tag">#SysML v2</span>
+      </div>
+
+      <h1>🌍 MONOLITH</h1>
+      <p>
+        ホワイトベース・完全モノクロームデザインの <strong>3D地球儀リアルタイム地震モニター &amp; Lo-Fi チルミュージックプレイヤー</strong> です。
+        作業用BGMを流しながら世界中の地震活動を静かに眺められる、ミニマルで美しいWebアプリです。
+      </p>
+
+      <div class="cta-bar">
+        <a href="https://noppe7856.github.io/monolith-quake/" class="btn btn-primary" data-track-event="play_app" data-app-id="monolith-quake">▶ 今すぐMONOLITHを開く</a>
+        <a href="https://github.com/noppe7856/monolith-quake" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" data-track-event="source_code_click" data-app-id="monolith-quake">💻 GitHubでソースを見る</a>
+        <button type="button" class="btn btn-secondary" data-share="x" data-share-url="https://noppe7856.github.io/monolith-quake/" data-share-text="完全モノクロームの3D地球儀リアルタイム地震モニター &amp; Lo-Fiプレイヤー「MONOLITH」">
+          𝕏 でシェア
+        </button>
+      </div>
+
+      <h2>主な機能</h2>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <strong>🌐 磁器調マットホワイト3D地球儀</strong>
+          カスタムGLSLシェーダーで描かれた美しいモノクローム地球儀。ドラッグやタッチで滑らかに回転・ズームでき、自動回転ON/OFFにも対応。
+        </div>
+        <div class="feature-item">
+          <strong>✨ 震源インクパーティクル＆3重リップル</strong>
+          地震が発生すると震源へ極小の黒パーティクルが螺旋状に集束し、インクハローと3重の3Dリップルリングが広がります。
+        </div>
+        <div class="feature-item">
+          <strong>📡 LIVE監視 ＆ 30日間タイムライン再生</strong>
+          USGSのリアルタイム地震データを60秒ごとに定期監視する LIVE モードと、過去30日間を速度切替・マグニチュードフィルタで振り返れる HISTORY 30D モードを搭載。
+        </div>
+        <div class="feature-item">
+          <strong>🎧 Web Audio API Lo-Fiチル自動生成</strong>
+          外部音声ファイル不要で、3種のコード進行・スウィングドラム・レコードノイズ・波形表示をブラウザ内でリアルタイム合成します。
+        </div>
+      </div>
+
+      <h2>こんな方におすすめ</h2>
+      <ul>
+        <li>勉強やデスクワーク中に、落ち着いたモノクローム映像と Lo-Fi BGM を流しておきたい方</li>
+        <li>世界中の地震の起き方やプレート境界の活動を3D地球儀で直感的に観察したい方</li>
+        <li>Three.js・GLSLシェーダー・Web Audio API・SysML v2（MBSE）の実装事例に興味がある開発者の方</li>
+      </ul>
+
+      <h2>動作環境・透明性</h2>
+      <p>
+        WebGL および Web Audio API に対応した最新ブラウザ（Chrome / Edge / Safari 等）で動作します。会員登録不要・無料で、全ソースコードおよび SysML v2 モデル・自動検証テストを GitHub 上で公開しています。
+      </p>
+
+      <div class="ad-slot-wrapper" data-ad-slot="detailBottom">
+        <div class="ad-label">スポンサーリンク</div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="copyright">&copy; <span data-year>2026</span> <span data-site-name>のっぺのアプリ広場</span></div>
+      <div class="footer-links">
+        <a href="../">トップへ戻る</a>
+        <a href="../contact.html">お問い合わせ</a>
+        <a href="../privacy.html">プライバシーポリシー</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="../js/app.js"></script>
+</body>
+</html>
