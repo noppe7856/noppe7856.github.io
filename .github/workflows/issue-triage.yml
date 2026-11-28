@@ -1,0 +1,181 @@
+name: Issue Triage & Periodic Check
+
+on:
+  issues:
+    types: [opened]
+  schedule:
+    # 毎日 09:00 JST (00:00 UTC) に未対応のオープン Issue をチェック
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  issues: read
+
+jobs:
+  auto-triage:
+    if: github.event_name == 'issues'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Auto-label and post welcome reply
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const text = `${issue.title || ""}\n${issue.body || ""}`.toLowerCase();
+
+            // キーワードから既存ラベルを自動判定
+            const labelsToAdd = [];
+            if (/(バグ|不具合|エラー|動かない|開けない|表示崩れ|崩れ|間違|誤字|リンク切れ|\bbug\b|\berror\b|\bfix\b)/.test(text)) {
+              labelsToAdd.push("bug");
+            }
+            if (/(要望|リクエスト|追加|機能|アイデア|作って|ほしい|欲しい|改善|\bfeature\b|\brequest\b|\benhancement\b)/.test(text)) {
+              labelsToAdd.push("enhancement");
+            }
+            if (/(質問|教えて|使い方|どうやって|\bquestion\b|\bhow to\b)/.test(text)) {
+              labelsToAdd.push("question");
+            }
+
+            if (labelsToAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                owner,
+                repo,
+                issue_number: issue.number,
+                labels: labelsToAdd,
+              });
+            }
+
+            // リポジトリオーナー自身が立てたメモ用 Issue には自動返信しない
+            if (issue.user && issue.user.login === owner) {
+              core.info("Skipping welcome comment for repository owner issue.");
+              return;
+            }
+
+            const lines = [
+              "のっぺのアプリ広場へご連絡いただきありがとうございます！",
+              "内容を確認のうえ、順次対応いたします。",
+              "",
+            ];
+
+            if (labelsToAdd.includes("bug")) {
+              lines.push(
+                "不具合のご報告の場合、もしまだ記載がなければ以下も追記いただけると調査がスムーズです：",
+                "- ご利用のアプリ名（例：漢字読みマスター、手旗信号 3D トレーナー、MONOLITH など）",
+                "- お使いの端末・ブラウザ（例：iPhone Safari、Windows Chrome など）",
+                "- どのような操作をしたときに起きたか",
+                ""
+              );
+            }
+
+            lines.push("（※このメッセージは自動返信です）");
+
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: issue.number,
+              body: lines.join("\n"),
+            });
+
+  scheduled-check:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: read
+    steps:
+      - name: Check open issues for pending owner responses
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const allItems = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: "open",
+              per_page: 100,
+            });
+
+            // Pull Request を除外して純粋な Issue のみを対象にする
+            const openIssues = allItems.filter((item) => !item.pull_request);
+
+            const now = Date.now();
+            const pendingIssues = [];
+            const rows = [];
+
+            for (const issue of openIssues) {
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner,
+                repo,
+                issue_number: issue.number,
+                per_page: 100,
+              });
+
+              // オーナーが作成、またはオーナーが1回以上返信済みかを判定
+              const ownerCreated = issue.user && issue.user.login === owner;
+              const ownerReplied = comments.some((c) => c.user && c.user.login === owner);
+              const needsResponse = !ownerCreated && !ownerReplied;
+
+              const ageDays = Math.floor((now - new Date(issue.created_at).getTime()) / (1000 * 60 * 60 * 24));
+              const labels = (issue.labels || [])
+                .map((l) => (typeof l === "string" ? l : l.name))
+                .join(", ") || "-";
+
+              if (needsResponse) {
+                pendingIssues.push({ issue, ageDays, labels });
+              }
+
+              const escapeHtml = (str) =>
+                String(str || "")
+                  .replace(/&/g, "&amp;")
+                  .replace(/</g, "&lt;")
+                  .replace(/>/g, "&gt;")
+                  .replace(/\|/g, "\\|");
+
+              rows.push([
+                `<a href="${issue.html_url}">#${issue.number}</a>`,
+                escapeHtml(issue.title),
+                escapeHtml(labels),
+                `${ageDays}日前`,
+                needsResponse ? "未返信" : "確認済み",
+              ]);
+            }
+
+            await core.summary
+              .addHeading("オープン Issue 定期チェック結果")
+              .addRaw(
+                `- オープン Issue 合計: **${openIssues.length} 件**\n` +
+                `- オーナー未返信の Issue: **${pendingIssues.length} 件**\n\n`
+              );
+
+            if (rows.length > 0) {
+              await core.summary.addTable([
+                [
+                  { data: "#", header: true },
+                  { data: "タイトル", header: true },
+                  { data: "ラベル", header: true },
+                  { data: "経過", header: true },
+                  { data: "状態", header: true },
+                ],
+                ...rows,
+              ]);
+            } else {
+              await core.summary.addRaw("現在オープンな Issue はありません。\n");
+            }
+
+            await core.summary.write();
+
+            if (pendingIssues.length > 0) {
+              for (const { issue, ageDays } of pendingIssues) {
+                core.warning(`未返信 Issue #${issue.number}: ${issue.title} (${ageDays}日前) ${issue.html_url}`);
+              }
+              // 未返信 Issue があるときだけ失敗終了し、GitHub の失敗通知メールで気付けるようにする
+              core.setFailed(
+                `オーナー未返信のオープン Issue が ${pendingIssues.length} 件あります。詳細はサマリーを確認してください。`
+              );
+            } else {
+              core.info(`オープン Issue: ${openIssues.length} 件（オーナー未返信: 0 件）`);
+            }
